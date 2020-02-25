@@ -1,0 +1,3 @@
+rootProject.name='WizardPager'
+include ':app'
+include ':widzardlib'
