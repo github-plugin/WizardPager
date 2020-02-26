@@ -9,6 +9,7 @@ import java.util.List;
 public class WizardViewModel extends ViewModel {
     private List<Fragment> fragments = new ArrayList<>();
     private boolean swipeDisable = true;
+    private int buttonStyle = 0;
     private String previousButtonName = "Prev";
     private String nextButtonName = "Next";
 
@@ -34,6 +35,14 @@ public class WizardViewModel extends ViewModel {
 
     public void setPrevButtonName(String previousButtonName) {
         this.previousButtonName = previousButtonName;
+    }
+
+    public int getButtonStyle() {
+        return buttonStyle;
+    }
+
+    public void setButtonStyle(int buttonStyle) {
+        this.buttonStyle = buttonStyle;
     }
 
     public String getPreviousButtonName() {
