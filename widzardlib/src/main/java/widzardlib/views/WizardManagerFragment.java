@@ -15,14 +15,16 @@ import java.util.Objects;
 
 import practice.com.widzardlib.databinding.FragmentWizardManagerBinding;
 import widzardlib.interfaces.ActionListener;
+import widzardlib.interfaces.AsyncCallback;
 import widzardlib.interfaces.ValidateListener;
+import widzardlib.models.enums.CallBackType;
 import widzardlib.viewModel.FragmentAdapter;
 import widzardlib.viewModel.WizardViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WizardManagerFragment extends Fragment implements View.OnClickListener, ActionListener {
+public class WizardManagerFragment extends Fragment implements View.OnClickListener, ActionListener, AsyncCallback {
 
     private FragmentWizardManagerBinding binding;
 
@@ -73,9 +75,8 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
                 }
             }
         });
-        if(viewModel.getButtonStyle() != 0)
-        {
-           // binding.btnPrevious.setApp
+        if (viewModel.getButtonStyle() != 0) {
+            // binding.btnPrevious.setApp
         }
         binding.btnNext.setText(viewModel.getNextButtonName());
         binding.btnPrevious.setText(viewModel.getPreviousButtonName());
@@ -113,5 +114,13 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
             else if (binding.btnPrevious.getId() == view.getId())
                 onPreviousClicked();
         }
+    }
+
+    @Override
+    public void onCallback(CallBackType callBackType) {
+        if (callBackType.getValue() == CallBackType.Next.getValue())
+            onNextClicked();
+        else if (callBackType.getValue() == CallBackType.Previous.getValue())
+            onPreviousClicked();
     }
 }
