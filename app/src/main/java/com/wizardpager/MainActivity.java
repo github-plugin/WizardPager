@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         WizardManagerFragment wizardManagerFragment = WizardManagerFragment.newInstance();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.rootView, wizardManagerFragment)
+                .replace(R.id.content_frame, wizardManagerFragment)
                 .commit();
     }
 }
