@@ -46,7 +46,7 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wizard_manager, container);
+        View view = inflater.inflate(R.layout.fragment_wizard_manager, container, false);
         vpFragments = view.findViewById(R.id.vpFragments);
         btnNext = view.findViewById(R.id.btnNext);
         btnPrevious = view.findViewById(R.id.btnPrevious);
