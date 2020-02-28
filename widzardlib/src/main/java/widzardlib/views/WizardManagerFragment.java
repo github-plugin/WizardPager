@@ -1,6 +1,7 @@
 package widzardlib.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.Objects;
 
@@ -27,6 +29,7 @@ import widzardlib.viewModel.WizardViewModel;
 public class WizardManagerFragment extends Fragment implements View.OnClickListener, ActionListener, AsyncCallback {
 
     private FragmentWizardManagerBinding binding;
+    public static String FOOTER_HIDE = "FOOTER_KEY";
 
     public WizardManagerFragment() {
         // Required empty public constructor
@@ -52,12 +55,28 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
         fragmentAdapter.setFragments(viewModel.getFragments());
         binding.vpFragments.disableSwipe(viewModel.isSwipeDisable());
         binding.vpFragments.setAdapter(fragmentAdapter);
+        binding.vpFragments.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //Log.d("onPageScrolled", String.format("position:%d positionOffset:%f positionOffsetPixels:%d", position, positionOffset, positionOffsetPixels));
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                showOrHideFooter();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.d("pageScrollStateChanged", String.format("state:%d", state));
+            }
+        });
         binding.vpFragments.post(new Runnable() {
             @Override
             public void run() {
                 if (binding.vpFragments.getAdapter() != null) {
-
-                    FragmentAdapter fragmentAdapter = (FragmentAdapter) binding.vpFragments.getAdapter();
+                    showOrHideFooter();
+                   /* FragmentAdapter fragmentAdapter = (FragmentAdapter) binding.vpFragments.getAdapter();
                     Fragment fragmentFocus = fragmentAdapter.getItem(binding.vpFragments.getCurrentItem());
                     requireActivity().getSupportFragmentManager()
                             .beginTransaction()
@@ -71,7 +90,7 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
                                 .detach(fragmentNext)
                                 .attach(fragmentNext)
                                 .commit();
-                    }
+                    }*/
                 }
             }
         });
@@ -83,6 +102,17 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
         binding.btnNext.setOnClickListener(this);
         binding.btnPrevious.setOnClickListener(this);
         return binding.getRoot();
+    }
+
+    private void showOrHideFooter() {
+        if (binding.vpFragments.getAdapter() != null) {
+            Fragment fragment = ((FragmentAdapter) binding.vpFragments.getAdapter()).getItem(binding.vpFragments.getCurrentItem());
+            Bundle bundle = fragment.getArguments();
+            if (bundle != null && bundle.getBoolean(FOOTER_HIDE, false))
+                binding.clFooter.setVisibility(View.GONE);
+            else
+                binding.clFooter.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

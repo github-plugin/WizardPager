@@ -12,6 +12,8 @@ import java.util.List;
 import widzardlib.viewModel.WizardViewModel;
 import widzardlib.views.WizardManagerFragment;
 
+import static widzardlib.views.WizardManagerFragment.FOOTER_HIDE;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,7 +23,13 @@ public class MainActivity extends AppCompatActivity {
         WizardViewModel viewModel = new ViewModelProvider(this).get(WizardViewModel.class);
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(FragmentOne.newInstance());
-        fragments.add(FragmentTwo.newInstance());
+
+        Fragment fragmentTwo = FragmentTwo.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(FOOTER_HIDE, true);
+        fragmentTwo.setArguments(bundle);
+        fragments.add(fragmentTwo);
+
         viewModel.setFragments(fragments);
         WizardManagerFragment wizardManagerFragment = WizardManagerFragment.newInstance();
         getSupportFragmentManager()

@@ -21,13 +21,13 @@ public class WizardViewPager extends ViewPager {
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
+   /* @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (swipeDisable)
             return false;
         return super.onTouchEvent(ev);
-    }
+    }*/
 
     public void disableSwipe(boolean swipeDisable) {
         this.swipeDisable = swipeDisable;
