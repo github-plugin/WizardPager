@@ -136,14 +136,15 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        if (binding.btnPrevious.getId() == view.getId()) {
+            onPreviousClicked();
+            return;
+        }
+
         FragmentAdapter adapter = (FragmentAdapter) binding.vpFragments.getAdapter();
         ValidateListener validateListener = (ValidateListener) Objects.requireNonNull(adapter).getItem(binding.vpFragments.getCurrentItem());
-        if (validateListener.isValid()) {
-            if (binding.btnNext.getId() == view.getId())
-                onNextClicked();
-            else if (binding.btnPrevious.getId() == view.getId())
-                onPreviousClicked();
-        }
+        if (binding.btnNext.getId() == view.getId() && validateListener.isValid())
+            onNextClicked();
     }
 
     @Override
