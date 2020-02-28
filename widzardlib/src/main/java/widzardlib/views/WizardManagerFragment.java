@@ -60,7 +60,7 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onPageSelected(int position) {
-                showOrHideFooter();
+                refreshFragment();
             }
 
             @Override
@@ -71,7 +71,7 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
             @Override
             public void run() {
                 if (binding.vpFragments.getAdapter() != null) {
-                    showOrHideFooter();
+                    refreshFragment();
                    /* FragmentAdapter fragmentAdapter = (FragmentAdapter) binding.vpFragments.getAdapter();
                     Fragment fragmentFocus = fragmentAdapter.getItem(binding.vpFragments.getCurrentItem());
                     requireActivity().getSupportFragmentManager()
@@ -100,7 +100,7 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
         return binding.getRoot();
     }
 
-    private void showOrHideFooter() {
+    private void refreshFragment() {
         if (binding.vpFragments.getAdapter() != null) {
             Fragment fragment = ((FragmentAdapter) binding.vpFragments.getAdapter()).getItem(binding.vpFragments.getCurrentItem());
             Bundle bundle = fragment.getArguments();
@@ -108,6 +108,11 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
                 binding.clFooter.setVisibility(View.GONE);
             else
                 binding.clFooter.setVisibility(View.VISIBLE);
+
+            if (((FragmentAdapter) binding.vpFragments.getAdapter()).getItem(binding.vpFragments.getCurrentItem()) instanceof WizardStep) {
+                WizardStep wizardStep = (WizardStep) ((FragmentAdapter) binding.vpFragments.getAdapter()).getItem(binding.vpFragments.getCurrentItem());
+                wizardStep.refresh();
+            }
         }
     }
 

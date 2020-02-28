@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 
 import widzardlib.interfaces.ActionListener;
 import widzardlib.interfaces.ValidateListener;
+import widzardlib.interfaces.WizardStep;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentOne extends Fragment implements ValidateListener {
+public class FragmentOne extends Fragment implements WizardStep {
 
     public FragmentOne() {
         // Required empty public constructor
@@ -35,5 +36,10 @@ public class FragmentOne extends Fragment implements ValidateListener {
     @Override
     public boolean isValid() {
         return true;
+    }
+
+    @Override
+    public void refresh() {
+
     }
 }
