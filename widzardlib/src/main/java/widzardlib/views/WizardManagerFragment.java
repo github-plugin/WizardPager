@@ -1,7 +1,6 @@
 package widzardlib.views;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import java.util.Objects;
 import practice.com.widzardlib.databinding.FragmentWizardManagerBinding;
 import widzardlib.interfaces.ActionListener;
 import widzardlib.interfaces.AsyncCallback;
-import widzardlib.interfaces.ValidateListener;
+import widzardlib.interfaces.WizardStep;
 import widzardlib.models.enums.CallBackType;
 import widzardlib.viewModel.FragmentAdapter;
 import widzardlib.viewModel.WizardViewModel;
@@ -43,7 +42,6 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WizardViewModel viewModel = new ViewModelProvider(requireActivity()).get(WizardViewModel.class);
     }
 
     @Override
@@ -58,7 +56,6 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
         binding.vpFragments.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Log.d("onPageScrolled", String.format("position:%d positionOffset:%f positionOffsetPixels:%d", position, positionOffset, positionOffsetPixels));
             }
 
             @Override
@@ -68,7 +65,6 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d("pageScrollStateChanged", String.format("state:%d", state));
             }
         });
         binding.vpFragments.post(new Runnable() {
@@ -142,8 +138,8 @@ public class WizardManagerFragment extends Fragment implements View.OnClickListe
         }
 
         FragmentAdapter adapter = (FragmentAdapter) binding.vpFragments.getAdapter();
-        ValidateListener validateListener = (ValidateListener) Objects.requireNonNull(adapter).getItem(binding.vpFragments.getCurrentItem());
-        if (binding.btnNext.getId() == view.getId() && validateListener.isValid())
+        WizardStep wizardStep = (WizardStep) Objects.requireNonNull(adapter).getItem(binding.vpFragments.getCurrentItem());
+        if (binding.btnNext.getId() == view.getId() && wizardStep.isValid())
             onNextClicked();
     }
 
